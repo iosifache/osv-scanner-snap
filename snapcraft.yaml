@@ -1,0 +1,99 @@
+# Identifier
+name: osv-scanner
+
+# Version
+version: '0.1'
+
+# Base snap
+base: core22
+
+# Maturity, either devel or stable
+grade: stable
+
+# Minimal access level, with permissions provided by the interfaces above
+confinement: strict
+
+# Build and run architectures
+architectures:
+  - build-on: [amd64]
+  - build-on: [arm64]
+
+parts:
+  osv-scanner:
+    source-type: git
+    source: https://github.com/google/osv-scanner
+    plugin: nil
+    stage-packages:
+      - golang-go
+    override-pull: |
+      # Do the regular work
+      craftctl default
+
+      # Update
+      apt-get update
+      apt-get -y install software-properties-common
+
+      # Install Go 1.21
+      add-apt-repository -y ppa:longsleep/golang-backports
+      apt-get -y install golang-1.21
+      update-alternatives --install /usr/bin/go go /usr/lib/go-1.21/bin/go 3
+
+      # Build
+      ./scripts/build.sh
+
+      # Staging the executable
+      mkdir -p $SNAPCRAFT_PART_INSTALL/bin
+      cp ./osv-scanner $SNAPCRAFT_PART_INSTALL/bin
+      chmod +x $SNAPCRAFT_PART_INSTALL/bin/osv-scanner
+
+# Apps, aka entry points in the snap
+# 
+# The following plugs are used:
+# 1. Home directory access
+# 2. Network access: OSV-Scanner is connecting to the OSV database to query for
+#                    vulnerabilities in all found dependencies.
+#
+#                    There is also an offline experimental mode (see
+#                    https://google.github.io/osv-scanner/experimental's
+#                    "Offline option" section), but it requires a previously
+#                    downloaded database.
+apps:
+  osv-scanner:
+    command: bin/osv-scanner
+    plugs:
+      - home
+      - network
+
+# Name displayed in the software center GUI
+title: OSV-Scanner
+
+# Sentence summarising the snap
+summary: Vulnerability scanner for project's dependencies
+
+# Detailed 
+description: |
+  OSV-Scanner is a vulnerability scanner that examines your project's list of
+  dependencies and reports any vulnerabilities that affect the versions you're
+  using.
+  
+  As of December 2023, it supports lockfiles from C, C++, Dart, Elixir, Go,
+  Java, JavaScript, PHP, Python, R, Ruby, and Rust. It also supports custom
+  lockfiles: simply write some glue code to convert your lockfile into an
+  intermediary JSON file with a particular format, and OSV-Scanner will
+  comprehend the latter.
+
+  After confirming that a reported vulnerability is a false positive or
+  discovering mitigations other than upgrading the package, OSV-Scanner provides
+  the option to suppress it so that future runs will not display it.
+
+# Icon displayed in the store
+icon: images/icon.png
+
+# Issue reporting
+issues:
+  - https://github.com/iosifache/osv-scanner-snap/issues
+  - https://github.com/google/osv-scanner
+
+license: GPL-3.0
+
+website: https://github.com/iosifache/osv-scanner-snap
