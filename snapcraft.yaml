@@ -23,20 +23,13 @@ parts:
     source-type: git
     source: https://github.com/google/osv-scanner
     plugin: nil
-    stage-packages:
-      - golang-go
+    build-snaps:
+      - go
+    stage-snaps:
+      - go
     override-pull: |
       # Do the regular work
       craftctl default
-
-      # Update
-      apt-get update
-      apt-get -y install software-properties-common
-
-      # Install Go 1.21
-      add-apt-repository -y ppa:longsleep/golang-backports
-      apt-get -y install golang-1.21
-      update-alternatives --install /usr/bin/go go /usr/lib/go-1.21/bin/go 3
 
       # Build
       ./scripts/build.sh
