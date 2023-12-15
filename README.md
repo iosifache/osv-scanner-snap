@@ -5,11 +5,17 @@
 </p>
 <h2 align="center">Vulnerability scanner for project's dependencies</h2>
 <p align="center" float="left">
-    <img src="https://snapcraft.io/osv-scanner/badge.svg" width="150" height="17" alt="Snapcraft's Version"/>
+    <a href="https://snapcraft.io/osv-scanner">
+        <img src="https://snapcraft.io/osv-scanner/badge.svg" width="150" height="17" alt="Snapcraft's Version"/>
+    </a>
     &nbsp; &nbsp;
-    <img src="https://img.shields.io/github/v/release/google/osv-scanner?label=OSV-Scanner%20on%20GitHub%20Releases&color=1c8223" height="17" alt="PyPI's Version">
+    <a href="https://snapcraft.io/osv-scanner">
+        <img src="https://img.shields.io/github/v/release/google/osv-scanner?label=OSV-Scanner%20on%20GitHub%20Releases&color=1c8223" height="17" alt="PyPI's Version">
+    </a>
     &nbsp; &nbsp;
-    <img src="https://img.shields.io/github/actions/workflow/status/iosifache/osv-scanner-snap/test-build.yaml?label=Build%20Status&color=1c8223" height="17" alt="GitHub Build Workflow Status">
+    <a href="https://github.com/iosifache/osv-scanner-snap/actions/workflows/test-build.yaml">
+        <img src="https://img.shields.io/github/actions/workflow/status/iosifache/osv-scanner-snap/test-build.yaml?label=Build%20Status&color=1c8223" height="17" alt="GitHub Build Workflow Status">
+    </a>
 </p>
 
 # Description
