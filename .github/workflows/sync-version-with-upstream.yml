@@ -1,0 +1,29 @@
+name: Syncs the version the upstream
+
+on:
+  schedule:
+    - cron:  '0 0 * * *'
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    name: Syncs version with upstream
+    runs-on: ubuntu-latest
+    steps:
+      - name: Syncs version with upstream
+        uses: snapcrafters/ci/sync-version@main
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          update-script: |
+            VERSION=$(
+              curl -sL https://api.github.com/repos/google/osv-scanner/releases/latest | jq -r .tag_name
+            )
+            sed -i 's/^\(version: \).*$/\1'"$VERSION"'/' snap/snapcraft.yaml
+
