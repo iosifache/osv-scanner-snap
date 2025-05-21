@@ -23,7 +23,8 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           update-script: |
             VERSION=$(
-              curl -sL https://api.github.com/repos/google/osv-scanner/releases/latest | jq -r .tag_name
+              curl -sL https://api.github.com/repos/google/osv-scanner/releases/latest | 
+              jq -r '.tag_name' | grep -m1 -vE 'alpha|beta|rc' | tr -d 'v'
             )
             sed -i 's/^\(version: \).*$/\1'"$VERSION"'/' snap/snapcraft.yaml
 
