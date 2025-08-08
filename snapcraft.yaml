@@ -56,17 +56,17 @@ apps:
     plugs:
       - home
       - network
-      - var-lib-dpkg-status
-      - lib-apk-db-installed
+      - hostfs-var-lib-dpkg-status
+      - hostfs-lib-apk-db-installed
 
 # Plugs, further access to the host from the snap
 plugs:
   # Artifact system paths supported by the scanner
-  var-lib-dpkg-status:
+  hostfs-var-lib-dpkg-status:
     interface: system-files
     read:
       - /var/lib/snapd/hostfs/var/lib/dpkg/status
-  lib-apk-db-installed:
+  hostfs-lib-apk-db-installed:
     interface: system-files
     read:
       - /var/lib/snapd/hostfs/lib/apk/db/installed
