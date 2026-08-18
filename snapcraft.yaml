@@ -2,7 +2,7 @@
 name: osv-scanner
 
 # Version
-version: 2.5.0
+version: 2.5.1
 
 # Base snap
 base: core22
